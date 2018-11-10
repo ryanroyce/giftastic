@@ -2,7 +2,8 @@
 var pokeArr = ["Pikachu", "Bulbasaur", "Charmander","Squirtle", "Mankey", "Jigglypuff", "Butterfree", "Voltorb", "Porygon", "Clefairy", "Jigglypuff", "Onix", "Vulpix", "Tentacool", "Dugtrio", "Staryu", "Abra", "Geodude", "Nidoran", "Ghastly"]; 
 
 // this is my function to create the pokemon buttons using the array above and giving them a class and an area to be put into
-function makePokeButtons(pokeArr,pokeClass){
+// function makePokeButtons(pokeArr,pokeClass){
+    function makePokeButtons(pokeArr,pokeClass){
     // for loop for the array
     for(var i=0;i<pokeArr.length;i++){
         // creates buttons that will store the info from the array and then puts them on the page
@@ -23,7 +24,7 @@ makePokeButtons(pokeArr, "iChooseYou", "#pokeButtons");
 $(document).on("click", ".iChooseYou", function(){
     // creating a variable to store the string names of the pokemon 
     // var searchTerm = $(".iChooseYou").data("type");
-    // have to use this so it isn't picking only the first iChooseYou button and getting all of them
+    // have to use this; so it isn't picking only the first iChooseYou button and getting all of them
     var searchTerm = $(this).data("type");
 
     // call the giphy api from the code Phil gave us 
@@ -55,13 +56,12 @@ $(document).on("click", ".iChooseYou", function(){
             // created an img tag to store the two versions into and a break to give space between image and rating
             var pokeGif = $("<img><br>");
 
-            // give the gifs attributes for still and animated versions, week 6 activity 15 helpful for syntax. i.e. data-state, data-still
+            // give the gifs attributes for still and animated versions, week 6 activity 15 used as reference
             pokeGif.attr("src", still);
             pokeGif.attr("data-still", still);
             pokeGif.attr("data-state", "still");
             // load still versions first, then animated bc of order of precedence in reading JS
             pokeGif.attr("data-animated", animated);
-            
             
             // add a class of pokeGif to call later on in on click event 
             pokeGif.addClass("pokeGif");
@@ -73,5 +73,31 @@ $(document).on("click", ".iChooseYou", function(){
         });
 });
 
+// on click event to call back animated and still JSON data that has already been stored
+$(document).on("click", ".pokeGif", function(){
+    // state variable that stores the attributes of still and animated
+    var state = $(this).attr("data-state");
+    
+    // if else statements similar to activity 15 that Phil recommended to look back on called PausingGifs
+    if (state === "still"){
+        $(this).attr("src",$(this).data("animated"));
+        $(this).attr("data-state", "animated");
+    } else {
+        $(this).attr("src", $(this).data("still"));
+        $(this).attr("data-state", "still");
+    }
+});
 
+// this needs work.....it makes a new button but also duplicates all existing buttons(which I need to fix).
+$("#pokeSearch").on("click", function(submit){
+    var newChooseYou = $("input").val().trim();
+    pokeArr.push(newChooseYou);
+    // to test that clicking the button does something
+    console.log(newChooseYou);
+
+    // calls makePokeButtons function we made at the beginning
+    makePokeButtons(pokeArr, "iChooseYou", "#pokeButtons");
+    submit.preventDefault();
+    
+});
 
