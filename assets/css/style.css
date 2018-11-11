@@ -1,0 +1,22 @@
+body {
+background-image: url("../images/pokemon.jpg");
+background-size: cover;
+   background-attachment: fixed;
+}
+
+.iChooseYou {
+  background-color: red;
+  border-radius: 8px;
+  color: white;
+  margin: 5px 5px;
+}
+
+#pokeSearch {
+  background-color: red;
+  border-radius: 8px;
+  color: white;
+}
+
+#pokeRating{
+  color: white;
+}

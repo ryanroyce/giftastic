@@ -2,8 +2,10 @@
 var pokeArr = ["Pikachu", "Bulbasaur", "Charmander","Squirtle", "Mankey", "Jigglypuff", "Butterfree", "Voltorb", "Porygon", "Clefairy", "Jigglypuff", "Onix", "Vulpix", "Tentacool", "Dugtrio", "Staryu", "Abra", "Geodude", "Nidoran", "Ghastly"]; 
 
 // this is my function to create the pokemon buttons using the array above and giving them a class and an area to be put into
-// function makePokeButtons(pokeArr,pokeClass){
-    function makePokeButtons(pokeArr,pokeClass){
+// added pokeArea here and then later emptied it to make new buttons populate without iterating through the whole array again first   
+function makePokeButtons(pokeArr,pokeClass,pokeArea){
+    // if i empty pokearea it solves the issue that I had a couple of commits ago with populating all the buttons over again when i click the choose you button   
+    $(pokeArea).empty();
     // for loop for the array
     for(var i=0;i<pokeArr.length;i++){
         // creates buttons that will store the info from the array and then puts them on the page
@@ -34,8 +36,6 @@ $(document).on("click", ".iChooseYou", function(){
         url: queryURL,
         method: "GET"
     }).then(function(response){
-        // next, i console log the response to get the api data from the giphy site so later I can call specific elements of it.    
-        console.log(response);
          
         // have to make a for loop to call JSON data to populate the GIFs and get the ratings
         for(var i=0;i<response.data.length;i++){
@@ -44,7 +44,7 @@ $(document).on("click", ".iChooseYou", function(){
 
             // set rating equal to the JSON data a create a rating div
             var rating = response.data[i].rating;
-            var ratingDiv = $("<div>").html("Rating " + rating);
+            var ratingDiv = $("<div id='pokeRating'>").html("Rating " + rating);
             // display the rating in the rating div
             gifDiv.prepend(ratingDiv);
             
@@ -92,8 +92,6 @@ $(document).on("click", ".pokeGif", function(){
 $("#pokeSearch").on("click", function(submit){
     var newChooseYou = $("input").val().trim();
     pokeArr.push(newChooseYou);
-    // to test that clicking the button does something
-    console.log(newChooseYou);
 
     // calls makePokeButtons function we made at the beginning
     makePokeButtons(pokeArr, "iChooseYou", "#pokeButtons");
